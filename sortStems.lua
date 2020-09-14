@@ -37,6 +37,39 @@ function getNumberOfSelectedItems()
 	return reaper.CountSelectedMediaItems(activeProjectIndex)
 end
 
+--
+
+function getArrayOfTracks()
+
+	local arrayOfTracks = {}
+
+	local numberOfSelectedItems = getNumberOfSelectedItems()
+
+	for i = 0, numberOfSelectedItems - 1 do
+		local selectedItem = reaper.GetSelectedMediaItem(activeProjectIndex, i)
+		arrayOfTracks[i] = reaper.GetMediaItem_Track(selectedItem)
+	end
+
+	return arrayOfTracks
+end
+
+
+function getArrayOfItems()
+
+	local arrayOfItems = {}
+
+	local numberOfSelectedItems = getNumberOfSelectedItems()
+
+	for i = 0, numberOfSelectedItems - 1 do
+		arrayOfItems[i] = reaper.GetSelectedMediaItem(activeProjectIndex, i)
+	end
+
+	return arrayOfItems
+end
+
+--
+
+
 function alignItems(numberOfStems, noteLengthOffset)
 
 	local numberOfSelectedItems = getNumberOfSelectedItems()
@@ -55,45 +88,6 @@ function alignItems(numberOfStems, noteLengthOffset)
 	end
 end
 
-function getArrayOfTracks()
-
-	local arrayOfTracks = {}
-
-	local numberOfSelectedItems = getNumberOfSelectedItems()
-
-	for i = 0, numberOfSelectedItems - 1 do
-		local selectedItem = reaper.GetSelectedMediaItem(activeProjectIndex, i)
-		arrayOfTracks[i] = reaper.GetMediaItem_Track(selectedItem)
-	end
-
-	return arrayOfTracks
-end
-
-function getArrayOfItems()
-
-	local arrayOfItems = {}
-
-	local numberOfSelectedItems = getNumberOfSelectedItems()
-
-	for i = 0, numberOfSelectedItems - 1 do
-		arrayOfItems[i] = reaper.GetSelectedMediaItem(activeProjectIndex, i)
-	end
-
-	return arrayOfItems
-end
-
-
--- 12 stems
--- 4 groups
-
--- trackIndex at 0 should have itemIndex 0
--- trackIndex at 1 should have itemIndex 12
--- trackIndex at 2 should have itemIndex 24
--- trackIndex at 3 should have itemIndex 36
-
--- trackIndex at 4 should have itemIndex 1
--- trackIndex at 5 should have itemIndex 13
-
 
 function moveItemsToNewTracks(numberOfStems)
 
@@ -107,8 +101,6 @@ function moveItemsToNewTracks(numberOfStems)
 	for trackIndex = 0, #tracks do
 
 		local itemIndex = stemGroup + (trackIndex%numberOfStemGroups)*numberOfStems
-
---		print("stemGroup: " .. stemGroup .. " trackIndex: " .. trackIndex .. " itemIndex: " .. itemIndex .. "   ***    " .. (trackIndex%numberOfStems))
 
 		reaper.MoveMediaItemToTrack(items[itemIndex], tracks[trackIndex])
 
@@ -126,24 +118,15 @@ function addBufferTracks(numberOfStems)
 	local numberOfStemGroups = math.floor(numberOfSelectedItems/numberOfStems)
 	local trackIndexOffset = 0
 
-
-	-- print("GetNumTracks: ".. reaper.GetNumTracks())
-	-- print("numberOfStemGroups: ".. numberOfStemGroups)
-	-- print("numberOfSelectedItems: ".. numberOfSelectedItems)
-
 	for trackIndex = 1, #tracks+1 do
-
-			-- print(trackIndex)
 
 		if (trackIndex % numberOfStemGroups == 0) then
 
-			-- print("bam")
 			local wantTrackDefaults = true
 			trackIndexOffset = trackIndexOffset + 1
 			reaper.InsertTrackAtIndex(trackIndex + trackIndexOffset, wantTrackDefaults)
 			trackIndexOffset = trackIndexOffset + 1
 			reaper.InsertTrackAtIndex(trackIndex + trackIndexOffset, wantTrackDefaults)
-			--print(trackIndex + trackIndexOffset)
 		end
 	end
 end
@@ -177,9 +160,5 @@ startUndoBlock()
 	addBufferTracks(numberOfStems)
 	muteSelectedTracksExceptForTheFirstOne()
 	addSomeTracksAtTheEnd()
-
--- reaper.GetMediaItem_Track(selectedItem)
--- reaper.MoveMediaItemToTrack(firstItem, fifthTrack)
-
 
 endUndoBlock()
