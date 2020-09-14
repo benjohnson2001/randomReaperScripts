@@ -118,15 +118,16 @@ function addBufferTracks(numberOfStems)
 	local numberOfStemGroups = math.floor(numberOfSelectedItems/numberOfStems)
 	local trackIndexOffset = 0
 
-	for trackIndex = 1, #tracks+1 do
+	for i = 0, #tracks do
 
-		if (trackIndex % numberOfStemGroups == 0) then
+--		print(trackIndex)
+		if ((i+1) % numberOfStemGroups == 0) then
+--print("bam")
 
+			local trackIndex = reaper.GetMediaTrackInfo_Value(tracks[i], "IP_TRACKNUMBER")
 			local wantTrackDefaults = true
-			trackIndexOffset = trackIndexOffset + 1
-			reaper.InsertTrackAtIndex(trackIndex + trackIndexOffset, wantTrackDefaults)
-			trackIndexOffset = trackIndexOffset + 1
-			reaper.InsertTrackAtIndex(trackIndex + trackIndexOffset, wantTrackDefaults)
+			reaper.InsertTrackAtIndex(trackIndex, wantTrackDefaults)
+			reaper.InsertTrackAtIndex(trackIndex, wantTrackDefaults)
 		end
 	end
 end
@@ -142,7 +143,7 @@ end
 
 function addSomeTracksAtTheEnd()
 
-	for i = 0, 3 do
+	for i = 0, 1 do
 		local numberOfTracks = reaper.GetNumTracks()
 		local wantTrackDefaults = true
 		reaper.InsertTrackAtIndex(numberOfTracks, wantTrackDefaults)
