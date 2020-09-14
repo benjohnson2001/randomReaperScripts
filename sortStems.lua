@@ -69,22 +69,38 @@ end
 
 --
 
+function getLongestItemLength(numberOfStems)
+
+	local longestItemLength = -1
+	local numberOfSelectedItems = getNumberOfSelectedItems()
+
+	for i = 0, numberOfSelectedItems-1, numberOfStems do
+
+		local selectedItem = reaper.GetSelectedMediaItem(activeProjectIndex, i)
+		local selectedItemLength = reaper.GetMediaItemInfo_Value(selectedItem, "D_LENGTH")
+
+		if selectedItemLength > longestItemLength then
+			longestItemLength = selectedItemLength
+		end
+	end
+
+	return longestItemLength
+end
+
 
 function alignItems(numberOfStems, noteLengthOffset)
 
 	local numberOfSelectedItems = getNumberOfSelectedItems()
-	local stemGroup = 0
+	local longestItemLength = getLongestItemLength(numberOfStems)
 
 	for i = 0, numberOfSelectedItems - 1 do
 
 		local selectedItem = reaper.GetSelectedMediaItem(activeProjectIndex, i)
 		local selectedItemPosition = reaper.GetMediaItemInfo_Value(selectedItem, "D_POSITION")
+		local selectedItemLength = reaper.GetMediaItemInfo_Value(selectedItem, "D_LENGTH")
+		local timeShiftAmount = longestItemLength-selectedItemLength
 
-		reaper.SetMediaItemInfo_Value(selectedItem, "D_POSITION", selectedItemPosition-stemGroup*noteLengthOffset)
-
-		if ((i+1) % numberOfStems == 0) then
-			stemGroup = stemGroup + 1
-		end
+		reaper.SetMediaItemInfo_Value(selectedItem, "D_POSITION", selectedItemPosition+timeShiftAmount)
 	end
 end
 
@@ -143,7 +159,9 @@ end
 
 function addSomeTracksAtTheEnd()
 
-	for i = 0, 1 do
+	local numberOfTracksToAdd = 2
+
+	for i = 0, numberOfTracksToAdd-1 do
 		local numberOfTracks = reaper.GetNumTracks()
 		local wantTrackDefaults = true
 		reaper.InsertTrackAtIndex(numberOfTracks, wantTrackDefaults)
