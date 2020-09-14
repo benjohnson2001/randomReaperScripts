@@ -21,18 +21,6 @@ function currentBpm()
 	return reaper.TimeMap2_GetDividedBpmAtTime(activeProjectIndex, timePosition)
 end
 
-function lengthOfQuarterNote()
-	return 60/currentBpm()
-end
-
-function lengthOfEighthNote()
-	return lengthOfQuarterNote()/2
-end
-
-function lengthOfSixteenthNote()
-	return lengthOfEighthNote()/2
-end
-
 function getNumberOfSelectedItems()
 	return reaper.CountSelectedMediaItems(activeProjectIndex)
 end
@@ -88,7 +76,7 @@ function getLongestItemLength(numberOfStems)
 end
 
 
-function alignItems(numberOfStems, noteLengthOffset)
+function alignItems(numberOfStems)
 
 	local numberOfSelectedItems = getNumberOfSelectedItems()
 	local longestItemLength = getLongestItemLength(numberOfStems)
@@ -170,11 +158,10 @@ end
 
 
 local numberOfStems = 12
-local noteLengthOffset = lengthOfSixteenthNote()
 
 startUndoBlock()
 
-	alignItems(numberOfStems, noteLengthOffset)
+	alignItems(numberOfStems)
 	moveItemsToNewTracks(numberOfStems)
 	addBufferTracks(numberOfStems)
 	muteSelectedTracksExceptForTheFirstOne()
