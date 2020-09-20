@@ -48,6 +48,11 @@ function lengthOfHundredTwentyEighthNote()
 	return lengthOfSixtyFourthNote()/2
 end
 
+function lengthOfPPQInSeconds(arg)
+	local numberOfPulsesPerQuarterNote = 960
+	return arg*lengthOfQuarterNote()/numberOfPulsesPerQuarterNote
+end
+
 -----
 
 function getSelectedItems()
@@ -81,7 +86,7 @@ end
 
 startUndoBlock()
 
-	local numberOfNotes = 129
+	local numberOfNotes = 302
 	local selectedItems = getSelectedItems()
 
 	for i = 0, #selectedItems do
@@ -97,27 +102,36 @@ startUndoBlock()
 				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfEighthNote())
 				allItemsFromSplit[j+1] = newItem
 
+				-- at this point:
+				-- allItemsFromSplit[0] is eighth note
+				-- allItemsFromSplit[1] is the rest of the item
+
 			else
 
 				local selectedItemPosition = reaper.GetMediaItemInfo_Value(allItemsFromSplit[j], "D_POSITION")
+				local selectedItemLength = reaper.GetMediaItemInfo_Value(allItemsFromSplit[j], "D_LENGTH")
 				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfEighthNote())
-				local newItem2 = reaper.SplitMediaItem(newItem, selectedItemPosition + lengthOfEighthNote() + j*lengthOfHundredTwentyEighthNote())
+
+				-- at this point when j=1:
+				-- allItemsFromSplit[1] is the second eighth note
+				-- newItem is the rest of the item
+
+				local newItemPosition = reaper.GetMediaItemInfo_Value(newItem, "D_POSITION")
+				local newItem2 = reaper.SplitMediaItem(newItem, newItemPosition + lengthOfPPQInSeconds(j))
 				
+				-- at this point:
+				-- newItem2 is the rest of the item
+				-- newItem is just relese volume noise that should be discarded
+
 				allItemsFromSplit[j+1] = newItem2
-
-				local newItem2Position = reaper.GetMediaItemInfo_Value(newItem2, "D_POSITION")
-
-				if j == numberOfNotes - 1 then
-
-					local newItem3 = reaper.SplitMediaItem(newItem2, newItem2Position + lengthOfEighthNote())
-					local trackOfNewItem3 = reaper.GetMediaItemTrack(newItem3)
-					reaper.DeleteTrackMediaItem(trackOfNewItem3, newItem3)
-				end
-
 				local trackOfNewItem = reaper.GetMediaItemTrack(newItem)
 				reaper.DeleteTrackMediaItem(trackOfNewItem, newItem)
 
-				reaper.SetMediaItemInfo_Value(newItem2, "D_POSITION", newItem2Position - j*lengthOfHundredTwentyEighthNote())
+
+				-- move the items over to the left to align with the grid
+				local newItem2Position = reaper.GetMediaItemInfo_Value(newItem2, "D_POSITION")
+				reaper.SetMediaItemInfo_Value(newItem2, "D_POSITION", newItem2Position - lengthOfPPQInSeconds(j))
+
 			end
 		end
 	end
@@ -126,3 +140,14 @@ startUndoBlock()
 	reaper.UpdateArrange()
 
 endUndoBlock()
+
+
+
+
+
+
+				-- print("j: " .. j)
+				-- print("position: " .. tostring(selectedItemPosition))
+				-- print("length: " .. tostring(selectedItemLength))
+				-- print("\n")
+				-- print(lengthOfPPQInSeconds(j))
