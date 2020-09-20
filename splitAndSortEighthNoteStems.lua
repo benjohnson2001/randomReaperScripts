@@ -14,7 +14,7 @@ function startUndoBlock()
 end
 
 function endUndoBlock()
-	local actionDescription = "splitAndSort128thStems"
+	local actionDescription = "splitAndSortEighthNoteStems"
 	reaper.Undo_OnStateChange(actionDescription)
 	reaper.Undo_EndBlock(actionDescription, -1)
 end
