@@ -55,4 +55,6 @@ startUndoBlock()
 		reaper.SetMediaItemInfo_Value(selectedItem, "D_POSITION", selectedItemPosition-offsetAmount)
 	end
 
+	reaper.UpdateArrange()
+
 endUndoBlock()

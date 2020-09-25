@@ -14,7 +14,7 @@ function startUndoBlock()
 end
 
 function endUndoBlock()
-	local actionDescription = "splitAndSortEighthNoteStems"
+	local actionDescription = "splitAndSortQuarterNoteStems"
 	reaper.Undo_OnStateChange(actionDescription)
 	reaper.Undo_EndBlock(actionDescription, -1)
 end
@@ -26,26 +26,6 @@ end
 
 function lengthOfQuarterNote()
 	return 60/currentBpm()
-end
-
-function lengthOfEighthNote()
-	return lengthOfQuarterNote()/2
-end
-
-function lengthOfSixteenthNote()
-	return lengthOfEighthNote()/2
-end
-
-function lengthOfThirtySecondNote()
-	return lengthOfSixteenthNote()/2
-end
-
-function lengthOfSixtyFourthNote()
-	return lengthOfThirtySecondNote()/2
-end
-
-function lengthOfHundredTwentyEighthNote()
-	return lengthOfSixtyFourthNote()/2
 end
 
 function lengthOfPPQInSeconds(arg)
@@ -86,7 +66,7 @@ end
 
 startUndoBlock()
 
-	local numberOfNotes = 114
+	local numberOfNotes = 120
 	local selectedItems = getSelectedItems()
 
 	for i = 0, #selectedItems do
@@ -99,7 +79,7 @@ startUndoBlock()
 			if j == 0 then
 
 				local selectedItemPosition = reaper.GetMediaItemInfo_Value(allItemsFromSplit[j], "D_POSITION")
-				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfEighthNote())
+				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfQuarterNote())
 				allItemsFromSplit[j+1] = newItem
 
 				-- at this point:
@@ -110,7 +90,7 @@ startUndoBlock()
 
 				local selectedItemPosition = reaper.GetMediaItemInfo_Value(allItemsFromSplit[j], "D_POSITION")
 				local selectedItemLength = reaper.GetMediaItemInfo_Value(allItemsFromSplit[j], "D_LENGTH")
-				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfEighthNote())
+				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfQuarterNote())
 
 				-- at this point when j=1:
 				-- allItemsFromSplit[1] is the second eighth note
