@@ -128,8 +128,8 @@ function getFileName()
 
 	local numberOfInputs = 1
 	local defaultFileName = ""
-	local _, fileName =  reaper.GetUserInputs("render selected items", numberOfInputs, "File name:,extrawidth=100", defaultFileName)
-	return fileName
+	local userComplied, fileName =  reaper.GetUserInputs("render selected items", numberOfInputs, "File name:,extrawidth=100", defaultFileName)
+	return userComplied, fileName
 end
 
 -----
@@ -226,7 +226,10 @@ startUndoBlock()
 	local endPosition = getEndPosition()
 	setTimeSelection(startPosition, endPosition)
 
-	local fileName = getFileName()
-	render(fileName)
+	local userComplied, fileName = getFileName()
+
+	if userComplied then
+		render(fileName)
+	end
 
 endUndoBlock()
