@@ -153,9 +153,10 @@ startUndoBlock()
 
 	insertCC(mediaItemStartPosition(), 127)
 
-	local numberOfSixteenthNotesForLeadTone = 6
+	local numberOfSixteenthNotesForLeadTone = 2
 
-	for i = 1, 1000 do
+--	for i = 1, 36 do
+	for i = 1, 200 do
 
 		local cursorPosition = reaper.GetCursorPosition()
 

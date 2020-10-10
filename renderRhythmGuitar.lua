@@ -118,7 +118,7 @@ end
 
 ----
 
-local fileName = "wurlieLeadVerseOriginalSnap"
+local fileName = "wurlieRhythmChorusChord4_"
 local fileExtension = ".wav"
 
 local numberOfSelectedItems = reaper.CountSelectedMediaItems(activeProjectIndex)
@@ -136,7 +136,7 @@ startUndoBlock()
 		local selectedItemPosition = reaper.GetMediaItemInfo_Value(selectedItem, "D_POSITION")
 		local selectedItemLength = reaper.GetMediaItemInfo_Value(selectedItem, "D_LENGTH")
 
-		local numberOfStems = 32
+		local numberOfStems = 16
 
 		for j = 0, numberOfStems - 1 do
 

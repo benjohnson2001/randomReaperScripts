@@ -73,6 +73,12 @@ function getSelectedItems()
 
 end
 
+function extendBySixteenthNotes()
+
+	local commandId = reaper.NamedCommandLookup("_RS8803e4d7748937a8007b3ae438a72a06d83f1174")
+	reaper.Main_OnCommand(commandId, 0)
+end
+
 function extendByOneHundredTwentyEighthNotes()
 
 	local commandId = reaper.NamedCommandLookup("_RS565b2e47b74342346d72ae0984829d80013cd1fc")
@@ -93,9 +99,15 @@ end
 startUndoBlock()
 
 
-	local numberOfSixteenthNotesForLeadTone = 6
+	-- local numberOfSixteenthNotesForLeadTone = 2
+	-- local numberOfSixteenthNotesForLeadTone = 12
+	-- local numberOfSixteenthNotesForLeadTone = 8
+	local numberOfSixteenthNotesForLeadTone = 16
 	local spacerLength = 8 * lengthOfSixteenthNote()
-	local numberOfNotes = 240
+	-- local numberOfNotes = 19
+	-- local numberOfNotes = 9
+	-- local numberOfNotes = 12
+	local numberOfNotes = 8
 	local selectedItems = getSelectedItems()
 
 	for i = 0, #selectedItems do
@@ -184,7 +196,7 @@ startUndoBlock()
 
 
 
-	--extendByOneHundredTwentyEighthNotes()
+	--extendBySixteenthNotes()
 	reaper.UpdateArrange()
 
 endUndoBlock()

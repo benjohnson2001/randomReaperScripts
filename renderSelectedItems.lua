@@ -21,6 +21,28 @@ function endUndoBlock()
 	reaper.Undo_EndBlock(actionDescription, -1)
 end
 
+--
+
+local sectionName = "com.pandabot.renderSelectedItems" 
+
+function setValue(key, value)
+  reaper.SetProjExtState(activeProjectIndex, sectionName, key, value)
+end
+
+function getValue(key, defaultValue)
+
+  local valueExists, value = reaper.GetProjExtState(activeProjectIndex, sectionName, key)
+
+  if valueExists == 0 then
+    setValue(key, defaultValue)
+    return defaultValue
+  end
+
+  return value
+end
+
+--
+
 function currentBpm()
 	local timePosition = 0
 	return reaper.TimeMap2_GetDividedBpmAtTime(activeProjectIndex, timePosition)
@@ -67,7 +89,13 @@ function soloTracksOfSelectedItems()
 
 		local selectedItem = reaper.GetSelectedMediaItem(activeProjectIndex, i)
 		local trackOfSelectedItem = reaper.GetMediaItem_Track(selectedItem)
-		reaper.SetMediaTrackInfo_Value(trackOfSelectedItem, "I_SOLO", 1)
+
+		local trackIsMuted = reaper.GetMediaTrackInfo_Value(trackOfSelectedItem, "B_MUTE")
+		local trackIsNotMuted = (trackIsMuted == 0.0)
+
+		if trackIsNotMuted then
+			reaper.SetMediaTrackInfo_Value(trackOfSelectedItem, "I_SOLO", 1)
+		end
 	end
 end
 
@@ -124,12 +152,13 @@ function setTimeSelection(startPosition, endPosition)
 	reaper.GetSet_LoopTimeRange2(activeProjectIndex, isSet, isLoop, startPosition, endPosition, allowAutoseek)
 end
 
-function getFileName()
+function getFileNameAndNumberOfTimesToRender()
 
-	local numberOfInputs = 1
-	local defaultFileName = ""
-	local userComplied, fileName =  reaper.GetUserInputs("render selected items", numberOfInputs, "File name:,extrawidth=100", defaultFileName)
-	return userComplied, fileName
+	local numberOfInputs = 2
+	local defaultInputs = getValue("fileName", "") .. "," .. getValue("numberOfTimesToRender", 1)
+	local userComplied, userInputs =  reaper.GetUserInputs("render selected items", numberOfInputs, "File name:,number of times to render:,extrawidth=100", defaultInputs)
+	fileName, numberOfTimesToRender = userInputs:match("([^,]+),([^,]+)")
+	return userComplied, fileName, tonumber(numberOfTimesToRender)
 end
 
 -----
@@ -221,15 +250,29 @@ startUndoBlock()
 
 	unsoloAllTracks()
 	soloTracksOfSelectedItems()
+	reaper.UpdateArrange()
 
-	local startPosition = getStartPosition()
-	local endPosition = getEndPosition()
-	setTimeSelection(startPosition, endPosition)
-
-	local userComplied, fileName = getFileName()
+	local bufferSpace = lengthOfQuarterNote()
+	local userComplied, fileName, numberOfTimesToRender = getFileNameAndNumberOfTimesToRender()
 
 	if userComplied then
-		render(fileName)
+
+		setValue("fileName", fileName)
+		setValue("numberOfTimesToRender", numberOfTimesToRender)
+
+		for i = 0, numberOfTimesToRender - 1 do
+
+			local startPosition = reaper.BR_GetClosestGridDivision(getStartPosition() - i*lengthOfEighthNote()) - bufferSpace
+			local endPosition = reaper.BR_GetClosestGridDivision(getEndPosition()) + bufferSpace
+			setTimeSelection(startPosition, endPosition)
+			render(fileName)
+		end
 	end
 
 endUndoBlock()
+
+
+
+	-- print("userComplied: " .. tostring(userComplied))
+	-- print("fileName: " .. tostring(fileName))
+	-- print("numberOfTimesToRender: " .. tostring(numberOfTimesToRender))
