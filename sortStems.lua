@@ -157,7 +157,7 @@ function addSomeTracksAtTheEnd()
 end
 
 
-local numberOfStems = 2
+local numberOfStems = 1
 
 startUndoBlock()
 

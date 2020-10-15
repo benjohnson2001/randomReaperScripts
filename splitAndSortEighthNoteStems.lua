@@ -100,12 +100,16 @@ startUndoBlock()
 			if j == 0 then
 
 				local selectedItemPosition = reaper.GetMediaItemInfo_Value(allItemsFromSplit[j], "D_POSITION")
+				-- local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfEighthNote())
 				local newItem = reaper.SplitMediaItem(allItemsFromSplit[j], selectedItemPosition + lengthOfEighthNote())
 				allItemsFromSplit[j+1] = newItem
 
 				-- at this point:
 				-- allItemsFromSplit[0] is eighth note
 				-- allItemsFromSplit[1] is the rest of the item
+
+				local firstItemPosition = reaper.GetMediaItemInfo_Value(allItemsFromSplit[0], "D_POSITION")
+				reaper.SetMediaItemInfo_Value(allItemsFromSplit[0], "D_POSITION", firstItemPosition - lengthOfQuarterNote()) -- separate the notes so you can hear what they sound like alone
 
 			else
 
@@ -131,7 +135,8 @@ startUndoBlock()
 
 				-- move the items over to the left to align with the grid
 				local newItem2Position = reaper.GetMediaItemInfo_Value(newItem2, "D_POSITION")
-				reaper.SetMediaItemInfo_Value(newItem2, "D_POSITION", newItem2Position - lengthOfPPQInSeconds(j))
+				-- reaper.SetMediaItemInfo_Value(newItem2, "D_POSITION", newItem2Position - lengthOfPPQInSeconds(j))
+				reaper.SetMediaItemInfo_Value(newItem2, "D_POSITION", newItem2Position - lengthOfPPQInSeconds(j) + lengthOfQuarterNote()) -- separate the notes so you can hear what they sound like alone
 
 			end
 		end

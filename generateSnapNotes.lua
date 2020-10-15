@@ -153,7 +153,7 @@ startUndoBlock()
 
 	insertCC(mediaItemStartPosition(), 127)
 
-	local numberOfSixteenthNotesForLeadTone = 2
+	local numberOfSixteenthNotesForLeadTone = 4
 
 --	for i = 1, 36 do
 	for i = 1, 200 do

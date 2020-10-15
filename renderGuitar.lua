@@ -16,7 +16,7 @@ function startUndoBlock()
 end
 
 function endUndoBlock()
-	local actionDescription = "renderRhythmGuitar"
+	local actionDescription = "renderGuitar"
 	reaper.Undo_OnStateChange(actionDescription)
 	reaper.Undo_EndBlock(actionDescription, -1)
 end
@@ -118,7 +118,7 @@ end
 
 ----
 
-local fileName = "wurlieRhythmChorusChord4_"
+local fileName = "wurlieRhythmBridgeCombinedChord2_"
 local fileExtension = ".wav"
 
 local numberOfSelectedItems = reaper.CountSelectedMediaItems(activeProjectIndex)

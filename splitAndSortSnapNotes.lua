@@ -100,14 +100,16 @@ startUndoBlock()
 
 
 	-- local numberOfSixteenthNotesForLeadTone = 2
+	local numberOfSixteenthNotesForLeadTone = 4
 	-- local numberOfSixteenthNotesForLeadTone = 12
 	-- local numberOfSixteenthNotesForLeadTone = 8
-	local numberOfSixteenthNotesForLeadTone = 16
+	-- local numberOfSixteenthNotesForLeadTone = 16
 	local spacerLength = 8 * lengthOfSixteenthNote()
 	-- local numberOfNotes = 19
+	local numberOfNotes = 16
 	-- local numberOfNotes = 9
 	-- local numberOfNotes = 12
-	local numberOfNotes = 8
+	-- local numberOfNotes = 8
 	local selectedItems = getSelectedItems()
 
 	for i = 0, #selectedItems do
