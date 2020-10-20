@@ -118,7 +118,7 @@ end
 
 ----
 
-local fileName = "wurlieRhythmBridgeCombinedChord2_"
+local fileName = "wurlieLeadChorusNoteStems_"
 local fileExtension = ".wav"
 
 local numberOfSelectedItems = reaper.CountSelectedMediaItems(activeProjectIndex)
