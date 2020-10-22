@@ -14,7 +14,7 @@ function startUndoBlock()
 end
 
 function endUndoBlock()
-	local actionDescription = "generateOneBarForRhythmNoteStems"
+	local actionDescription = "generateCleanTwoBarForRhythmNoteStems"
 	reaper.Undo_OnStateChange(actionDescription)
 	reaper.Undo_EndBlock(actionDescription, -1)
 end

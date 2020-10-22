@@ -74,7 +74,8 @@ end
 
 startUndoBlock()
 
-	local numberOfNotes = 114
+	-- local numberOfNotes = 114
+	local numberOfNotes = 14
 	local selectedItems = getSelectedItems()
 
 	for i = 0, #selectedItems do

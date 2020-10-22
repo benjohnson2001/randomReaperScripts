@@ -34,6 +34,19 @@ function lengthOfEighthNote()
 	return lengthOfQuarterNote()/2
 end
 
+function lengthOfSixteenthNote()
+	return lengthOfEighthNote()/2
+end
+
+function lengthOfThirtySecondNote()
+	return lengthOfSixteenthNote()/2
+end
+
+function lengthOfPPQInSeconds(arg)
+	local numberOfPulsesPerQuarterNote = 960
+	return arg*lengthOfQuarterNote()/numberOfPulsesPerQuarterNote
+end
+
 function setTimeSelection(startPosition, endPosition)
 
 	local isSet = true
@@ -118,7 +131,7 @@ end
 
 ----
 
-local fileName = "wurlieLeadChorusNoteStems_"
+local fileName = "wurlieRhythmVerseMagicChordStems_"
 local fileExtension = ".wav"
 
 local numberOfSelectedItems = reaper.CountSelectedMediaItems(activeProjectIndex)
@@ -130,18 +143,21 @@ end
 
 startUndoBlock()
 
+	local bufferSpace = lengthOfEighthNote()
+
 	for i = 0, numberOfSelectedItems - 1 do
 
 		local selectedItem = reaper.GetSelectedMediaItem(activeProjectIndex, i)
 		local selectedItemPosition = reaper.GetMediaItemInfo_Value(selectedItem, "D_POSITION")
 		local selectedItemLength = reaper.GetMediaItemInfo_Value(selectedItem, "D_LENGTH")
 
-		local numberOfStems = 16
+		local numberOfStems = 32
 
 		for j = 0, numberOfStems - 1 do
 
-			local startPosition = selectedItemPosition-j*lengthOfEighthNote()
-			local endPosition = selectedItemPosition+selectedItemLength+lengthOfEighthNote()
+			local startPosition = selectedItemPosition-j*lengthOfSixteenthNote()
+			-- local startPosition = selectedItemPosition-lengthOfPPQInSeconds(j)
+			local endPosition = selectedItemPosition+selectedItemLength + bufferSpace
 			setTimeSelection(startPosition, endPosition)
 
 			render(fileName .. tostring(j+1) .. fileExtension)
