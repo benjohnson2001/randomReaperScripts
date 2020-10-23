@@ -151,10 +151,10 @@ function addBufferTracks(numberOfStems)
 end
 
 
-function muteSelectedTracksExceptForTheFirstOne()
+function muteSelectedTracks()
 	local tracks = getArrayOfTracks()
 
-	for i = 1, #tracks do
+	for i = 0, #tracks do
 		reaper.SetMediaTrackInfo_Value(tracks[i], "B_MUTE", 1)
 	end
 end
@@ -234,6 +234,7 @@ startUndoBlock()
 	addBufferTracks(numberOfStems)
 	alignNotesToBe(lengthOfEighthNote())
 	moveItemsOntoTracksForEightColumns(numberOfStems)
+	muteSelectedTracks()
 	extendByOneHundredTwentyEighthNotes()
 
 endUndoBlock()
