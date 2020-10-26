@@ -264,6 +264,7 @@ startUndoBlock()
 
 			local startPosition = reaper.BR_GetClosestGridDivision(getStartPosition() - i*lengthOfEighthNote()) - bufferSpace
 			local endPosition = reaper.BR_GetClosestGridDivision(getEndPosition()) + bufferSpace
+
 			setTimeSelection(startPosition, endPosition)
 			render(fileName)
 		end
