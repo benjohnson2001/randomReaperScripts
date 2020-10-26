@@ -215,7 +215,7 @@ function moveItemsOntoTracksForEightColumns(numberOfStems)
 
 		if columnIndex ~= 0 then
 			local selectedItemPosition = reaper.GetMediaItemInfo_Value(items[itemIndex], "D_POSITION")
-			reaper.SetMediaItemInfo_Value(items[itemIndex], "D_POSITION", selectedItemPosition + columnIndex*lengthOfQuarterNote())
+			reaper.SetMediaItemInfo_Value(items[itemIndex], "D_POSITION", selectedItemPosition + columnIndex*(lengthOfEighthNote() + lengthOfQuarterNote()))
 			reaper.MoveMediaItemToTrack(items[itemIndex], tracks[trackIndex-columnIndex])
 			reaper.DeleteTrack(tracks[trackIndex])
 		end

@@ -157,14 +157,14 @@ function addSomeTracksAtTheEnd()
 end
 
 
-local numberOfStems = 16
+local numberOfStems = 3
 
 startUndoBlock()
 
 	alignItems(numberOfStems)
 	moveItemsToNewTracks(numberOfStems)
 	addBufferTracks(numberOfStems)
-	muteSelectedTracksExceptForTheFirstOne()
-	addSomeTracksAtTheEnd()
+	--muteSelectedTracksExceptForTheFirstOne()
+	--addSomeTracksAtTheEnd()
 
 endUndoBlock()
