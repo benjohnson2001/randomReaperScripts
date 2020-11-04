@@ -76,8 +76,6 @@ end
 
 startUndoBlock()
 
-
-	local isForReasamplomatic = true
 	local items = getArrayOfItems()
 
 	local noteIndex = 0
@@ -96,16 +94,11 @@ startUndoBlock()
 		end
 
 		local itemPosition = reaper.GetMediaItemInfo_Value(items[i], "D_POSITION")
+		reaper.SetMediaItemInfo_Value(items[i], "D_LENGTH", lengthOfEighthNote() + 5*lengthOfOneMilliSecond())
+		reaper.SetMediaItemInfo_Value(items[i], "D_FADEOUTLEN", 5*lengthOfOneMilliSecond())
 
-
-		if isForReasamplomatic then
-			reaper.SetMediaItemInfo_Value(items[i], "D_LENGTH", lengthOfEighthNote() + lengthOfOneMilliSecond()*5)
-		else
-			reaper.SetMediaItemInfo_Value(items[i], "D_LENGTH", lengthOfEighthNote() + lengthOfHundredTwentyEighthNote())
-			reaper.SetMediaItemInfo_Value(items[i], "D_FADEOUTLEN", lengthOfHundredTwentyEighthNote())
-			local fadeOutShape = 4
-			reaper.SetMediaItemInfo_Value(items[i], "C_FADEOUTSHAPE", fadeOutShape)
-		end
+		local fadeOutShape = 4
+		reaper.SetMediaItemInfo_Value(items[i], "C_FADEOUTSHAPE", fadeOutShape)
 
 		if noteIndex ~= 0 then
 			reaper.SetMediaItemInfo_Value(items[i], "D_POSITION", itemPosition + noteIndex * (-12*lengthOfOneBar() + lengthOfEighthNote() + lengthOfQuarterNote()))
