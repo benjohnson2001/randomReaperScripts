@@ -42,22 +42,30 @@ startUndoBlock()
     local channels = reaper.GetMediaSourceNumChannels(source)
     local startingPosition = 0
     local samples = samplerate
-    local bufferSize = samples/20 -- first 50ms
+    local bufferSize = samples/10 -- first 100ms
     local buffer = reaper.new_array(samples*channels)
     
     reaper.GetAudioAccessorSamples(accessor, samplerate, channels, startingPosition, samples, buffer)
 
     local sampleMax, maxPeakSample, sampleMax0 = 0
+    local maximumHasNotBeenFound = true
 
+    local previousSample = nil
     for i = 1, bufferSize do
 			
-			local sample = math.abs(buffer[i]) 
+			local sample = math.abs(buffer[i])
+			
+			if i > 1 and sample < previousSample and previousSample > 0.5 then
+				maximumHasNotBeenFound = false
+			end
+
 			sampleMax = math.max(sample, sampleMax)
 
-			if sampleMax ~= sampleMax0
-				then maxPeakSample = i/channels
+			if sampleMax ~= sampleMax0 and maximumHasNotBeenFound then
+				maxPeakSample = i/channels
 			end
 			
+			previousSample = sample
 			sampleMax0 = sampleMax
     end
     
