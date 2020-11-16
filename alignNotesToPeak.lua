@@ -1,7 +1,5 @@
 -- @noindex
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
 local activeProjectIndex = 0
 
 function print(arg)
