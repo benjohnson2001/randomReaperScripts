@@ -60,7 +60,7 @@ startUndoBlock()
 			sampleMax = math.max(sample, sampleMax)
 
 			if sampleMax ~= sampleMax0 and maximumHasNotBeenFound then
-				maxPeakSample = i/channels
+				maxPeakSample = i/channels - 1
 			end
 			
 			previousSample = sample
