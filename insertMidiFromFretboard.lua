@@ -525,7 +525,7 @@ startUndoBlock()
 
 	local numberOfInputs = 1
 	local defaultInputs = ""
-	local userComplied, userInputs =  reaper.GetUserInputs("enter guitar fretboard numbers, x for no play", numberOfInputs, "notes:,extrawidth=100", defaultInputs)
+	local userComplied, userInputs =  reaper.GetUserInputs("enter guitar fretboard numbers, x for no play", numberOfInputs, "frets:,extrawidth=100", defaultInputs)
 
 	if not userComplied then
 		return
