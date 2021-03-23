@@ -16,10 +16,6 @@ function endUndoBlock()
 	reaper.Undo_EndBlock(actionDescription, -1)
 end
 
-function trackHasReapitch(track)
-	return reaper.TrackFX_GetByName(track, "ReaPitch", false) ~= -1
-end
-
 startUndoBlock()
 
 	local numberOfTracks = reaper.CountSelectedTracks(activeProjectIndex)
@@ -28,24 +24,20 @@ startUndoBlock()
 		
 		local track = reaper.GetSelectedTrack(activeProjectIndex, i)
 
-		if trackHasReapitch(track) then
+		local numberOfFxInstances = reaper.TrackFX_GetCount(track)
+		local trackHasBeenNotProcessed = true
 
-			local numberOfFxInstances = reaper.TrackFX_GetCount(track)
-			local trackHasBeenNotProcessed = true
+		for j = 0, numberOfFxInstances-1 do
+			
+			local _, fxName = reaper.TrackFX_GetFXName(track, j, "")
 
-			for j = 0, numberOfFxInstances-1 do
-				
-				local _, fxName = reaper.TrackFX_GetFXName(track, j, "")
-
-				if string.match(fxName, "RS5K") and reaper.TrackFX_GetEnabled(track, j) and trackHasBeenNotProcessed then
-					reaper.TrackFX_SetEnabled(track, j, false)
-					reaper.TrackFX_SetEnabled(track, j-1, true)
-					trackHasBeenNotProcessed = false
-				end
+			if string.match(fxName, "RS5K") and reaper.TrackFX_GetEnabled(track, j) and trackHasBeenNotProcessed then
+				reaper.TrackFX_SetEnabled(track, j, false)
+				reaper.TrackFX_SetEnabled(track, j-1, true)
+				trackHasBeenNotProcessed = false
 			end
-
-			 
 		end
+
 	end
 
 endUndoBlock()
