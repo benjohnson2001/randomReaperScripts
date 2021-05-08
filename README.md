@@ -13,4 +13,4 @@ decreasePlaybackOffset.lua
 resetPlaybackOffset.lua
 
 (of selected tracks)
-![playbackOffsetStrumming](playbackOffsetStrumming.gif)
+![playbackOffsetStrumming](playbackOffsetStrumming/playbackOffsetStrumming.gif)
