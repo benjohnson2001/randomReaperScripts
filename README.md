@@ -1,3 +1,6 @@
+transposeItems.lua
+![transposeItems](transposeItems.gif)
+
 increasePlaybackOffset.lua / decreasePlaybackOffset.lua / resetPlaybackOffset.lua
 ![playbackOffsetStrumming](playbackOffsetStrumming/playbackOffsetStrumming.gif)
 
