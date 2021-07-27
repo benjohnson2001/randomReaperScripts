@@ -29,10 +29,89 @@ while
 
       (status == noteOnStatus) ? (
 
-        (velocity == 96 || velocity == 127) ? (
+        (velocity == 96 || velocity == 127 || velocity == 112) ? (
           midisend(offset, controlChangeStatus, midiControlChangeNumber, 64);
         ):(
-          midisend(offset, controlChangeStatus, midiControlChangeNumber, 44);
+        
+          (velocity == 95) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 63);
+          );
+          
+          (velocity == 94) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 62);
+          );
+        
+          (velocity == 93) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 61);
+          );
+          
+          (velocity == 92) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 60);
+          );
+          
+          (velocity == 91) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 59);
+          );
+          
+          (velocity == 90) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 58);
+          );
+        
+          (velocity == 89) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 57);
+          );
+          
+          (velocity == 88) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 56);
+          );          
+     
+          (velocity == 87) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 55);
+          );
+          
+          (velocity == 86) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 54);
+          );
+        
+          (velocity == 85) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 53);
+          );
+          
+          (velocity == 84) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 52);
+          );
+          
+          (velocity == 83) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 51);
+          );
+          
+          (velocity == 82) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 50);
+          );
+        
+          (velocity == 81) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 49);
+          );
+          
+          (velocity == 80) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 48);
+          );               
+          
+          (velocity == 79) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 47);
+          );
+          
+          (velocity == 78) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 46);
+          );
+        
+          (velocity == 77) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 45);
+          );
+          
+          (velocity == 76) ? (
+            midisend(offset, controlChangeStatus, midiControlChangeNumber, 44);
+          );
         );
       );
 
