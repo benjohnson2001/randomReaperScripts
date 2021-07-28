@@ -1,3 +1,6 @@
+copyItemFades.lua / pasteItemFades.lua
+![copyAndPasteItemFades](copyAndPasteItemFades.gif)
+
 transposeItems.lua
 ![transposeItems](transposeItems.gif)
 
