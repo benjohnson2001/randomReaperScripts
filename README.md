@@ -1,3 +1,6 @@
+chopUpLongNotesAccordingToMidi.lua
+![chopUpLongNotesAccordingToMidi](chopUpLongNotesAccordingToMidi.gif)
+
 copyItemFades.lua / pasteItemFades.lua
 ![copyAndPasteItemFades](copyAndPasteItemFades.gif)
 
