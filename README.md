@@ -1,3 +1,6 @@
+alignItemsAccordingToMidi.lua
+![alignItemsAccordingToMidi](alignItemsAccordingToMidi.gif)
+
 chopUpLongNotesAccordingToMidi.lua
 ![chopUpLongNotesAccordingToMidi](chopUpLongNotesAccordingToMidi.gif)
 
