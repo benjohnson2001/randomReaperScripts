@@ -44,6 +44,8 @@ function rightFadeIsNotPresent(fadeOutLength)
 end
 
 
+local numberOfMutedItems = 0
+
 startUndoBlock()
 
 	for i = 0, numberOfSelectedItems - 1 do
@@ -59,10 +61,12 @@ startUndoBlock()
 
 		if leftFadeIsNotPresent(startOffset, fadeInLength) or rightFadeIsNotPresent(fadeOutLength) then
 
+			numberOfMutedItems = numberOfMutedItems + 1
 			reaper.SetMediaItemInfo_Value(selectedItem, "B_MUTE", 1.0)
 		end
 	end
 
 endUndoBlock()
 
+print("numberOfMutedItems: " .. numberOfMutedItems)
 reaper.UpdateArrange()
