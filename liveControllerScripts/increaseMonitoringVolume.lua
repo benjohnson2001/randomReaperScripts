@@ -31,10 +31,12 @@ startUndoBlock()
 	local masterTrack = reaper.GetMasterTrack(activeProjectIndex)
 	addPurestGainToMonitoringFxChainIfItDoesNotExist(masterTrack)
 
-	local currentGainValue = reaper.TrackFX_GetParamNormalized(masterTrack, 0|0x1000000, 0)
+	local fxIndex = 0
+	local parameterIndex = 0
+	local currentGainValue = reaper.TrackFX_GetParamNormalized(masterTrack, fxIndex|0x1000000, parameterIndex)
 	local halfDbIncrement = 0.00625
 
 	local newGainValue = string.format("%.6f", currentGainValue + halfDbIncrement)
-	reaper.TrackFX_SetParamNormalized(masterTrack, 0|0x1000000, 0, newGainValue)
+	reaper.TrackFX_SetParamNormalized(masterTrack, fxIndex|0x1000000, parameterIndex, newGainValue)
 
 endUndoBlock()
