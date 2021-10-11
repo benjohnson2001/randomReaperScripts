@@ -33,6 +33,22 @@ end
 startUndoBlock()
 
 	if songIsNotPlaying() then
+
+		local numberOfTracks = reaper.CountTracks(activeProjectIndex)
+
+		for i = 0, numberOfTracks-1 do
+			
+			local track = reaper.GetTrack(activeProjectIndex, i)
+			local _, trackName = reaper.GetTrackName(track)
+
+			if string.match(string.lower(trackName), "vocal") then
+				-- reaper.SetMediaTrackInfo_Value(track, "I_RECMON", 1.0)
+				reaper.SetMediaTrackInfo_Value(track, "I_RECARM", 1.0)
+			else
+				reaper.SetMediaTrackInfo_Value(track, "I_RECARM", 0.0)
+			end
+		end
+
 		transportRecordAction()
 	end
 
