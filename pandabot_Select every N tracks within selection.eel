@@ -196,7 +196,7 @@ positionHasBeenSet = getValue(positionHasBeenSetKey);
 
   defaultDockState = 0;
   defaultInterfaceXPosition = getScreenWidth()/2 - interfaceWidth/2;
-  defaultInterfaceYPosition = getScreenHeight()/3 - interfaceHeight/2;
+  defaultInterfaceYPosition = getScreenHeight()/4 - interfaceHeight/2;
 
   gfx_init("Track selector", interfaceWidth, interfaceHeight, defaultDockState, defaultInterfaceXPosition, defaultInterfaceYPosition);
 
