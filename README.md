@@ -22,3 +22,8 @@ setNotesToBe9680.lua
 determineMostHarmonicInterval.lua
 ![determineMostHarmonicInterval](determineMostHarmonicInterval.gif)
 
+explodeMidiNotes.lua
+![explodeMidiNotes](explodeMidiNotes.gif)
+
+explodeDrumNotes.lua
+![explodeDrumNotes](explodeDrumNotes.gif)
